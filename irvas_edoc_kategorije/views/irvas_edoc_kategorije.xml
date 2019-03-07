@@ -1,0 +1,318 @@
+<odoo>
+
+    <!-- TREE VIEW FOR CATEGORIES OF REGISTER MATERIAL -->
+
+    <record model="ir.ui.view" id="irvas_edoc_categories_tree_view">
+        <field name="name">irvas.edoc.categories.tree</field>
+        <field name="model">irvas.edoc.categories</field>
+        <field name="arch" type="xml">
+            <tree string="Kategorije">
+                <field name="name"/>
+                <field name="saving_time_limit"/>
+                <field name="description"/>
+                <field name="main_group_id_number"/>
+                <field name="group_id_number"/>
+                <field name="subgroup_id_number"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW FOR irvas.edoc.categories -->
+
+    <record model="ir.ui.view" id="irvas_edoc_categories_form_view">
+        <field name="name">irvas.edoc.categories.form</field>
+        <field name="model">irvas.edoc.categories</field>
+        <field name="arch" type="xml">
+            <form string="Klasifikacija kategorija">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="main_group_id"/>
+                            <field name="group_id" domain="[('main_group_id','=',main_group_id)]"/>
+                            <field name="subgroup_id" domain="[('group_id','=',group_id)]"/>
+                        </group>
+                        <group>
+                            <field name="name"/>
+                            <field name="saving_time_limit"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS FOR irvas.edoc.categories -->
+
+    <record id="action_irvas_edoc_categories_form" model="ir.actions.act_window">
+        <field name="name">Irvas Edoc Kategorije</field>
+        <field name="res_model">irvas.edoc.categories</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_irvas_edoc_categories_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="irvas_edoc_categories_tree_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_categories_form"/>
+    </record>
+
+    <record id="action_irvas_edoc_categories_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref = "irvas_edoc_categories_form_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_categories_form"/>
+    </record>
+
+    <!-- TREE VIEW FOR irvas.edoc.main.group -->
+
+    <record model="ir.ui.view" id="irvas_edoc_maingroup_tree_view">
+        <field name="name">irvas.edoc.main.group.tree</field>
+        <field name="model">irvas.edoc.main.group</field>
+        <field name="arch" type="xml">
+                <tree string="Glavne Grupe">
+                    <field name="name"/>
+                    <field name="number"/>
+                </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW FOR irvas.edoc.main.group -->
+
+    <record model="ir.ui.view" id="irvas_edoc_maingroup_form_view">
+        <field name="name">irvas.edoc.main.group.form</field>
+        <field name="model">irvas.edoc.main.group</field>
+        <field name="arch" type="xml">
+            <form string="Glavna Grupa">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="number"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS FOR irvas.edoc.main.group -->
+
+    <record id="action_irvas_edoc_maingroup_form" model="ir.actions.act_window">
+        <field name="name">Irvas Edoc Main Group</field>
+        <field name="res_model">irvas.edoc.main.group</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_irvas_edoc_maingroup_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="irvas_edoc_maingroup_tree_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_maingroup_form"/>
+    </record>
+
+    <record id="action_irvas_edoc_maingroup_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref = "irvas_edoc_maingroup_form_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_maingroup_form"/>
+    </record>
+
+    <!-- TREE VIEW FOR irvas.edoc.group -->
+
+    <record model="ir.ui.view" id="irvas_edoc_group_tree_view">
+        <field name="name">irvas.edoc.group.tree</field>
+        <field name="model">irvas.edoc.group</field>
+        <field name="arch" type="xml">
+            <tree string="Grupe">
+                <field name="name"/>
+                <field name="number"/>
+                <field name="main_group_id_number"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW FOR irvas.edoc.group -->
+
+    <record model="ir.ui.view" id="irvas_edoc_group_form_view">
+        <field name="name">irvas.edoc.group.form</field>
+        <field name="model">irvas.edoc.group</field>
+        <field name="arch" type="xml">
+            <form string="Glavna Grupa">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="number"/>
+                        <field name="main_group_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS FOR irvas.edoc.group -->
+
+    <record id="action_irvas_edoc_group_form" model="ir.actions.act_window">
+        <field name="name">Irvas Edoc Group</field>
+        <field name="res_model">irvas.edoc.group</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_irvas_edoc_group_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="irvas_edoc_group_tree_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_group_form"/>
+    </record>
+
+    <record id="action_irvas_edoc_group_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref = "irvas_edoc_group_form_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_group_form"/>
+    </record>
+
+    <!-- TREE VIEW FOR irvas.edoc.subgroup -->
+
+    <record model="ir.ui.view" id="irvas_edoc_subgroup_tree_view">
+        <field name="name">irvas.edoc.subgroup.tree</field>
+        <field name="model">irvas.edoc.subgroup</field>
+        <field name="arch" type="xml">
+            <tree string="Podgrupe">
+                <field name="name"/>
+                <field name="number"/>
+                <field name="main_group_id_number"/>
+                <field name="group_id_number"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW FOR irvas.edoc.subgroup -->
+
+    <record model="ir.ui.view" id="irvas_edoc_subgroup_form_view">
+        <field name="name">irvas.edoc.subgroup.form</field>
+        <field name="model">irvas.edoc.subgroup</field>
+        <field name="arch" type="xml">
+            <form string="Podgrupa">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="number"/>
+                        <field name="main_group_id"/>
+                        <field name="group_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS FOR irvas.edoc.subgroup -->
+
+    <record id="action_irvas_edoc_subgroup_form" model="ir.actions.act_window">
+        <field name="name">Irvas Edoc Subgroup</field>
+        <field name="res_model">irvas.edoc.subgroup</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_irvas_edoc_subgroup_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="irvas_edoc_subgroup_tree_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_subgroup_form"/>
+    </record>
+
+    <record id="action_irvas_edoc_subgroup_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref = "irvas_edoc_subgroup_form_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_subgroup_form"/>
+    </record>
+
+    <!-- TREE VIEW FOR irvas.edoc.document -->
+
+    <record model="ir.ui.view" id="irvas_edoc_document_class_tree_view">
+        <field name="name">irvas.edoc.document.class.tree</field>
+        <field name="model">irvas.edoc.document.class</field>
+        <field name="arch" type="xml">
+            <tree string="Klase Dokumenata">
+                <field name="name"/>
+                <field name="irvas_edoc_category_id"/>
+                <field name="document_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- FORM VIEW FOR irvas.edoc.document.class -->
+
+    <record model="ir.ui.view" id="irvas_edoc_document_class_form_view">
+        <field name="name">irvas.edoc.document.class.form</field>
+        <field name="model">irvas.edoc.document.class</field>
+        <field name="arch" type="xml">
+            <form string="Klasa Dokumenta">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="irvas_edoc_category_id"/>
+                        <field name="document_type"/>
+                        <field name="main_group_id" readonly="True" attrs="{'invisible':[('document_type','=',None)]}"/>
+                        <field name="group_id" readonly="True" attrs="{'invisible':[('document_type','=',None)]}"/>
+                        <field name="subgroup_id" readonly="True" attrs="{'invisible':[('document_type','=',None)]}"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS FOR irvas.edoc.document.class -->
+
+    <record id="action_irvas_edoc_document_class_form" model="ir.actions.act_window">
+        <field name="name">Irvas Edoc Document Class</field>
+        <field name="res_model">irvas.edoc.document.class</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_irvas_edoc_document_class_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="irvas_edoc_document_class_tree_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_document_class_form"/>
+    </record>
+
+    <record id="action_irvas_edoc_document_class_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref = "irvas_edoc_document_class_form_view"/>
+        <field name="act_window_id" ref="action_irvas_edoc_document_class_form"/>
+    </record>
+
+
+    <menuitem id="irvas_edoc" name="Irvas Edoc" />
+
+    <menuitem id="irvas_edoc_main" name="Irvas Edoc"
+         sequence="1" parent="irvas_edoc" />
+
+    <menuitem id="irvas_edoc_categories" name="Categories"
+         sequence="1" parent="irvas_edoc_main" />
+
+    <menuitem id="irvas_edoc_documents" name="Documents"
+         sequence="1" parent="irvas_edoc_main" />
+
+    <menuitem id="irvas_edoc_categories_tree" name="Category"
+         action="action_irvas_edoc_categories_form" sequence="4" parent="irvas_edoc_categories" />
+
+    <menuitem id="irvas_edoc_document_class_tree" name="Class"
+         action="action_irvas_edoc_document_class_form" sequence="2" parent="irvas_edoc_documents" />
+
+    <menuitem id="irvas_edoc_maingroup_tree" name="Main Group"
+         action="action_irvas_edoc_maingroup_form" sequence="1" parent="irvas_edoc_categories" />
+
+    <menuitem id="irvas_edoc_group_tree" name="Group"
+         action="action_irvas_edoc_group_form" sequence="2" parent="irvas_edoc_categories" />
+
+    <menuitem id="irvas_edoc_subgroup_tree" name="Subgroup"
+         action="action_irvas_edoc_subgroup_form" sequence="3" parent="irvas_edoc_categories" />
+
+</odoo>

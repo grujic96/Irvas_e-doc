@@ -1,0 +1,31 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!DOCTYPE xml>
+<odoo></odoo>
+<!--<data noupdate="1">-->
+    <!--&lt;!&ndash; Demo data for Maingroups &ndash;&gt;-->
+    <!--<record id="1" model="irvas.edoc.main.group">-->
+        <!--<field name="name">Drzavno uredjenje, organizacija i rad drzavnih organa i statistika</field>-->
+        <!--<field name="number">1</field>-->
+    <!--</record>-->
+
+    <!--&lt;!&ndash; Demo data for groups &ndash;&gt;-->
+    <!--<record id="2" model="irvas.edoc.group">-->
+        <!--<field name="name">Opste o drzavnom uredjenju</field>-->
+        <!--<field name="number">1</field>-->
+        <!--<field name="main_group_id" ref="1"></field>-->
+    <!--</record>-->
+
+    <!--<record id="3" model="irvas.edoc.group">-->
+        <!--<field name="name">Ustavni predmeti, donosenje i objavljivanje propisa, predmeti od znacaja za razna podrucja delatnosti, izbori i referendumi, razgranicenja teritorija i podrucja</field>-->
+        <!--<field name="number">2</field>-->
+        <!--<field name="main_group_id" ref="1"></field>-->
+
+    <!--</record>-->
+
+    <!--&lt;!&ndash; Demo data for subgroups &ndash;&gt;-->
+    <!--<record id="4" model="irvas.edoc.subgroup">-->
+        <!--<field name="name">Ustavni predmeti</field>-->
+        <!--<field name="number">1</field>-->
+        <!--<field name="group_id" ref="3"></field>-->
+    <!--</record>-->
+<!--</data>-->

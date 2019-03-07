@@ -1,0 +1,23 @@
+<odoo>
+    <record model="ir.ui.view" id="view_dms_file_form_ext">
+        <field name="name">muk_dms.file.form.inherit</field>
+        <field name="model">muk_dms.file</field>
+        <field name="inherit_id" ref="muk_dms.view_dms_file_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/group[2]" position="after">
+                <group string="Information">
+                    <group>
+                        <field name="basic_number" required="True"/>
+                        <field name="sub_number" required="True"/>
+                        <field name="document_class_id" required="True"/>
+                    </group>
+                    <group>
+                        <field name="contact_id" required="True"/>
+                        <field name="object" required="True"/>
+                        <field name="create_date" required="True"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
