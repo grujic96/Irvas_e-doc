@@ -292,7 +292,7 @@
     <menuitem id="irvas_edoc" name="Irvas Edoc" />
 
     <menuitem id="irvas_edoc_main" name="Irvas Edoc"
-         sequence="1" parent="irvas_edoc" />
+         sequence="23" parent="muk_dms.cat_menu_muk_dms_config" />
 
     <menuitem id="irvas_edoc_categories" name="Categories"
          sequence="1" parent="irvas_edoc_main" />
