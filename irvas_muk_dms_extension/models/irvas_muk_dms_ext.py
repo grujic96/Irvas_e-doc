@@ -65,9 +65,7 @@ class MukDmsExt(models.Model):
     @api.one
     @api.depends('basic_number','sub_number')
     def get_document_number(self):
-        print(datetime.year)
         self.document_number = str(self.basic_number) + "-" + str(self.sub_number) + '/' + str(datetime.now().year)
-        print(self.document_number)
 
 
 

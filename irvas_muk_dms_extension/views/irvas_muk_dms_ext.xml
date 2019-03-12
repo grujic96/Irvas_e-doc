@@ -77,9 +77,9 @@
         <field name="inherit_id" ref="muk_dms.view_dms_file_tree"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <!--<xpath expr="//tree" position="attributes">
-                <attribute name="create">false</attribute>
-            </xpath> -->
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">basic_number,sub_number</attribute>
+            </xpath>
             <xpath expr="/tree/field[@name='name']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
@@ -89,8 +89,12 @@
                 <field name="date_receive"/>
                 <field name="document_class_id"/>
                 <field name="contact_id"/>
+                <field name="object"/>
             </xpath>
             <xpath expr="/tree/field[@name='mimetype']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='size']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
             <xpath expr="/tree/field[@name='write_date']" position="attributes">
@@ -105,21 +109,28 @@
         <field name="inherit_id" ref="muk_dms.view_dms_file_tree"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <!--<xpath expr="//tree" position="attributes">
-                <attribute name="create">false</attribute>
-            </xpath> -->
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">basic_number,sub_number</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='name']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
             <xpath expr="/tree/field[@name='name']" position="after">
-                <field name="contact_id"/>
-                <field name="document_class_id"/>
+                <field name="document_number"/>
                 <field name="create_date"/>
                 <field name="date_shipped"/>
+                <field name="document_class_id"/>
+                <field name="contact_id"/>
+                <field name="object"/>
+            </xpath>
+            <xpath expr="/tree/field[@name='mimetype']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='size']" position="attributes">
+                <attribute name="invisible">True</attribute>
             </xpath>
             <xpath expr="/tree/field[@name='write_date']" position="attributes">
                 <attribute name="invisible">True</attribute>
-            </xpath>
-            <xpath expr="/tree/field[@name='size']" position="after">
-                <field name="sub_number"/>
-                <field name="basic_number"/>
             </xpath>
         </field>
     </record>
