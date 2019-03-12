@@ -1,6 +1,6 @@
 
 from odoo import models, api, fields
-
+from datetime import datetime
 
 
 class MukDmsExt(models.Model):
@@ -13,19 +13,11 @@ class MukDmsExt(models.Model):
     document_class_id = fields.Many2one('irvas.edoc.document.class', string="Klasa Dokumenta")
     date_receive = fields.Datetime(string="Datum Prijema")
     date_shipped = fields.Datetime(string="Datum Otpreme")
-
     digital_signature = fields.Binary(string="Digital Signature")
+    document_number = fields.Text(string="Document Number", compute='get_document_number', store=True, readonly=True)
     #received_type = fields.Selection([('on_hands', 'On Booking'),
      #                                ('manual', 'On Check In'),
       #                               ('picking', 'On Checkout')], description='The way document was received', string="Receive Type")
-
-
-    def _set_document_type(self):
-        self.document_type = self._context.get('document_type')
-
-    document_type = fields.Selection([('prijem','Prijem'), ('otprema','Otprema')], default=_set_document_type, store=True, readonly=True)
-
-
     def _get_number_id(self):
         file = self.env['muk_dms.file'].search([])
         a=[]
@@ -43,6 +35,19 @@ class MukDmsExt(models.Model):
     basic_number = fields.Integer(string="Osnovni Broj", default=_get_number_id, store=True, readonly=False)
 
     @api.one
+    @api.depends('document_class_id')
+    def _get_document_state(self):
+        if self.document_class_id.document_type == 'izlazni':
+            self.document_state = 'otprema'
+            print('asd')
+        elif (self.document_class_id.document_type == 'ulazni') or (self.document_class_id.document_type == 'interni'):
+            self.document_state = 'prijem'
+            print('uso')
+        else:
+            return None
+    document_state = fields.Selection([('prijem', 'Prijem'), ('otprema', 'Otprema')],store=True, compute=_get_document_state)
+
+    @api.one
     @api.depends('basic_number')
     def number_onchange(self):
         file = self.env['muk_dms.file'].search([('basic_number', '=', self.basic_number)])
@@ -55,6 +60,17 @@ class MukDmsExt(models.Model):
                 if f.sub_number > max_subnumber:
                     max_subnumber = f.sub_number
             self.sub_number = max_subnumber + 1
+
+
+    @api.one
+    @api.depends('basic_number','sub_number')
+    def get_document_number(self):
+        print(datetime.year)
+        self.document_number = str(self.basic_number) + "-" + str(self.sub_number) + '/' + str(datetime.now().year)
+        print(self.document_number)
+
+
+
 
 
     def open_create_document_received(self,ctx, context=None):

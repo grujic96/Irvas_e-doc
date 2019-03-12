@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="irvas_edoc_document_wizard_view" model="ir.ui.view">
+        <field name="name">Document Report</field>
+        <field name="model">muk_dms.file.report</field>
+        <field name="arch" type="xml">
+        <form string="Choose your date">
+            <p class="oe_gray">
+                    Retrieve all documents between given dates.
+            </p>
+            <group>
+                <group>
+                    <field name="document_state"/>
+                    <field name="date"/>
+                    <field name="date_finish"/>
+                </group>
+            </group>
+            <footer>
+                <button name="print_pdf_document_report"
+                    string="Print Document Report"
+                    type="object"
+                    class="btn-primary"
+                    />
+                    <!--context="{'date': date}" -->
+                <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+        </form>
+        </field>
+        </record>
+
+        <record id="irvas_edoc_document_action_wizard" model="ir.actions.act_window">
+        <field name="name">Sit</field>
+        <field name="res_model">muk_dms.file.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="irvas_edoc_document_wizard_view"/>
+        <field name="target">new</field>
+        </record>
+        
+        <menuitem
+            id= "irvas_edoc_document_report"
+            parent="irvas_muk_dms_extension.irvas_edoc_document_list"
+            action="irvas_edoc_document_action_wizard"
+            name= "Edoc Document Report"
+	    sequence='15'
+            
+        />            
+        
+    </data>
+</odoo>

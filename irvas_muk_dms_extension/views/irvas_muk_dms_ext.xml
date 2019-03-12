@@ -11,10 +11,11 @@
                         <field name="basic_number" required="True"/>
                         <field name="sub_number" required="True"/>
                         <field name="document_class_id" required="True" domain="['|',['document_type','=','ulazni'],['document_type','=','interni']]"/>
+                        <field name="document_state" readonly="True"/>
                     </group>
                     <group>
                         <field name="contact_id" required="True"/>
-                        <field name="date_receive"/>
+                        <field name="date_receive" required="True"/>
                         <field name="create_date" required="True"/>
                     </group>
                     <group>
@@ -40,10 +41,11 @@
                         <field name="basic_number" required="True"/>
                         <field name="sub_number" required="True"/>
                         <field name="document_class_id" required="True" domain="[('document_type','=','izlazni')]"/>
+                        <field name="document_state" readonly="True"/>
                     </group>
                     <group>
                         <field name="contact_id" required="True"/>
-                        <field name="date_shipped"/>
+                        <field name="date_shipped" required="True"/>
                         <field name="create_date" required="True"/>
                     </group>
                     <group>
@@ -78,18 +80,21 @@
             <!--<xpath expr="//tree" position="attributes">
                 <attribute name="create">false</attribute>
             </xpath> -->
+            <xpath expr="/tree/field[@name='name']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
             <xpath expr="/tree/field[@name='name']" position="after">
-                <field name="contact_id"/>
-                <field name="document_class_id"/>
+                <field name="document_number"/>
                 <field name="create_date"/>
                 <field name="date_receive"/>
+                <field name="document_class_id"/>
+                <field name="contact_id"/>
+            </xpath>
+            <xpath expr="/tree/field[@name='mimetype']" position="attributes">
+                <attribute name="invisible">True</attribute>
             </xpath>
             <xpath expr="/tree/field[@name='write_date']" position="attributes">
                 <attribute name="invisible">True</attribute>
-            </xpath>
-            <xpath expr="/tree/field[@name='size']" position="after">
-                <field name="sub_number"/>
-                <field name="basic_number"/>
             </xpath>
         </field>
     </record>
@@ -152,14 +157,14 @@
         <field name="act_window_id" ref="action_dms_file_list"/>
     </record>
 
-    <!-- ACTION FOR muk_dms.file TREE VIEW with context for receive only -->
+    <!-- ACTION FOR muk_dms.file TREE VIEW recieve -->
 
     <record id="action_dms_file_list_receive" model="ir.actions.act_window">
         <field name="name">Prijem</field>
         <field name="res_model">muk_dms.file</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree, form</field>
-        <field name="context">{'search_default_visible': True, 'mail_create_nolog': True, 'document_type':'prijem'}</field>
+        <field name="context">{'search_default_visible': True, 'mail_create_nolog': True}</field>
         <field name="domain">['|',['document_class_id.document_type','=','ulazni'],['document_class_id.document_type','=','interni']]</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -187,14 +192,14 @@
         <field name="act_window_id" ref="action_dms_file_list_receive"/>
     </record>
 
-    <!-- ACTION FOR muk_dms.file TREE VIEW with context for shipped only -->
+    <!-- ACTION FOR muk_dms.file TREE VIEW shipped -->
 
     <record id="action_dms_file_list_shipped" model="ir.actions.act_window">
         <field name="name">Otprema</field>
         <field name="res_model">muk_dms.file</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree, form</field>
-        <field name="context">{'search_default_visible': True, 'mail_create_nolog': True, 'document_type':'otprema'}</field>
+        <field name="context">{'search_default_visible': True, 'mail_create_nolog': True}</field>
         <field name="domain">[('document_class_id.document_type','=','izlazni')]</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">

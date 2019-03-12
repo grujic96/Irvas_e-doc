@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xml>
+<odoo>
+
+    <!--Report for hotel folio -->
+    <report id="report_document"
+            string="Document"
+            model="muk_dms.file.report"
+            report_type="qweb-pdf"
+            file="irvas_muk_dms_report_ext.muk_dms_document_report_report"
+            name="irvas_muk_dms_report_ext.muk_dms_document_report_report"
+            menu="False" />
+
+</odoo>
