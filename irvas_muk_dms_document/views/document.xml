@@ -1,0 +1,257 @@
+<odoo>
+    <!--<record id="irvas_edoc_document_shipped_action_wizard" model="ir.actions.act_window">
+        <field name="name">eDoc</field>
+        <field name="res_model">muk_dms.file.shipping.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_muk_dms_file_id' : id}</field>
+        <field name="view_id" ref="irvas_edoc_document_shipped_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+    -->
+    <record model="ir.ui.view" id="muk_dms_document_form_view">
+        <field name="name">muk_dms.document.form</field>
+        <field name="model">muk_dms.document</field>
+        <field name="arch" type="xml">
+            <form string="Files">
+			<header>
+
+			</header>
+			<sheet>
+                <field name="thumbnail"
+                	widget='image'
+                	class="oe_avatar oe_read_only"
+                	options="{'preview_image': 'file_id.thumbnail_medium', 'size': [90, 90]}" />
+                 <div class="oe_title">
+					<label for="name" class="oe_edit_only" />
+					<h1>
+						<field name="name" readonly="True"/>
+					</h1>
+				</div>
+ 				<group string="Information">
+                    <field name="check_bn" invisible="True"/>
+                    <field name="document_class_id" string="Klasa Dokumenta" domain="['|',['document_type','=','ulazni'],['document_type','=','interni']]"/>
+                    <field name="subject_id" string="Predmet"/>
+                    <field name="basic_number" string="Osnovni Broj" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                    <field name="sub_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                    <field name="date_receive" string="Datum Prijema"/>
+				</group>
+                <group string="Partner">
+                    <field name="contact_id" string="Posiljaoc"/>
+                    <field name="date_document" string="Datum"/>
+                    <field name="tags" widget="many2many_tags" placeholder="Tags..."
+ 						options="{'color_field': 'color', 'no_create_edit': True}"/>
+                    <field name="file_id"/>
+
+                </group>
+
+				<notebook>
+					<page string="Meta Information">
+						<group>
+							<group>
+								<field name="create_uid" readonly="1" />
+							</group>
+							<group>
+								<field name="write_date" readonly="1" />
+								<field name="write_uid" readonly="1" />
+							</group>
+						</group>
+					</page>
+				</notebook>
+			</sheet>
+		</form>
+        </field>
+    </record>
+
+    <record id="muk_dms.main_menu_muk_dms" model="ir.ui.menu">
+        <field name='name'>eDoc</field>
+    </record>
+
+    <record model="ir.ui.view" id="muk_dms_document_received_tree_view">
+        <field name="name">muk_dms.document.tree</field>
+        <field name="model">muk_dms.document</field>
+        <field name="arch" type="xml">
+            <tree default_order="document_number">
+                <field name="document_number"/>
+                <field name="date_document"/>
+                <field name="date_receive"/>
+                <field name="document_class_id"/>
+                <field name="contact_id"/>
+                <field name="subject_id"/>
+                <field name="file_id"/>
+            </tree>
+        </field>
+    </record>
+    <!--
+    <record model="ir.ui.view" id="edoc_document_shipped_tree_view">
+        <field name="name">test</field>
+        <field name="model">muk_dms.file</field>
+        <field name="inherit_id" ref="muk_dms.view_dms_file_tree"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">basic_number,sub_number</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='name']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='name']" position="after">
+                <field name="document_number"/>
+                <field name="create_date"/>
+                <field name="date_shipped"/>
+                <field name="document_class_id"/>
+                <field name="contact_id"/>
+                <field name="object"/>
+            </xpath>
+            <xpath expr="/tree/field[@name='mimetype']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='size']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='path']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='write_date']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+        </field>
+    </record>
+    -->
+
+    <!-- ACTION FOR muk_dms.file TREE VIEW -->
+
+    <!--<record id="action_dms_file_list" model="ir.actions.act_window">
+        <field name="name">All Files</field>
+        <field name="res_model">muk_dms.file</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree, form</field>
+        <field name="context">{'search_default_visible': True, 'mail_create_nolog': True}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a new file.
+            </p>
+            <p>
+                Files are used to save content directly in Odoo.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_dms_file_all_list_new_treee" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="muk_dms.view_dms_file_tree"/>
+        <field name="act_window_id" ref="action_dms_file_list"/>
+    </record>
+
+    <record id="action_dms_file_all_list_new_form" model="ir.actions.act_window.view">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="muk_dms.view_dms_file_form"/>
+        <field name="act_window_id" ref="action_dms_file_list"/>
+    </record>
+    -->
+    <!-- ACTION FOR muk_dms.file TREE VIEW recieve -->
+
+    <record id="action_muk_dms_document_receive_form" model="ir.actions.act_window">
+        <field name="name">Prijem</field>
+        <field name="res_model">muk_dms.document</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree, form</field>
+         <field name="context">{'default_document_state' : 'prijem'}</field>
+        <field name="domain">['|',['document_class_id.document_type','=','ulazni'],['document_class_id.document_type','=','interni']]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a new file.
+            </p>
+            <p>
+                Files are used to save content directly in Odoo.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_documents_receive_tree_view" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="muk_dms_document_received_tree_view"/>
+
+        <field name="act_window_id" ref="action_muk_dms_document_receive_form"/>
+    </record>
+
+    <record id="action_documents_receive_form_view" model="ir.actions.act_window.view">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="muk_dms_document_form_view"/>
+        <field name="act_window_id" ref="action_muk_dms_document_receive_form"/>
+    </record>
+
+    <!-- ACTION FOR muk_dms.file TREE VIEW shipped -->
+
+    <!--<record id="action_dms_file_list_shipped" model="ir.actions.act_window">
+        <field name="name">Otprema</field>
+        <field name="res_model">muk_dms.file</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree, form</field>
+        <field name="context">{'search_default_visible': True, 'mail_create_nolog': True}</field>
+        <field name="domain">[('document_class_id.document_type','=','izlazni')]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a new file.
+            </p>
+            <p>
+                Files are used to save content directly in Odoo.
+            </p>
+        </field>
+        <field eval="False" name="view_id"/>
+    </record>
+
+    <record id="action_dms_file_shipped_list_new_form" model="ir.actions.act_window.view">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_dms_file_form_ext_shipped_form_view"/>
+        <field name="act_window_id" ref="action_dms_file_list_shipped"/>
+    </record>
+
+    <record id="action_dms_file_shipped_list_new_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="edoc_document_shipped_tree_view"/>
+        <field name="act_window_id" ref="action_dms_file_list_shipped"/>
+    </record>
+
+    <record id="irvas_edoc_document_shipped_wizard_view" model="ir.ui.view">
+        <field name="name">Otpremi Dokument</field>
+        <field name="model">muk_dms.file.shipping.wizard</field>
+        <field name="arch" type="xml">
+        <form string="Choose date and recipient">
+            <group>
+                <group>
+                    <field name="contact_id" string="Primalac"/>
+                    <field name="date_shipped"/>
+                    <field name="muk_dms_file_id" invisible="True"/>
+                    <field name="basic_number"/>
+                    <field name="sub_number"/>
+                    <field name="new_basic_number" string="Osnovni Broj"/>
+                    <field name="new_sub_number" string="novi subnumer"/>
+                </group>
+            </group>
+            <footer>
+                <button name="set_document_shipping"
+                    string="Otpremi"
+                    type="object"
+                    class="btn-primary"
+                    context="{'contact_id': contact_id, 'date_shipped': date_shipped, 'basic_number':basic_number, 'sub_number':sub_number, 'muk_dms_file_id':muk_dms_file_id}"
+                    />
+                <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+        </form>
+        </field>
+        </record>
+-->
+
+
+    <menuitem id="irvas_edoc_document_list" name="Spisak" sequence ="20" parent="muk_dms.main_menu_muk_dms"/>
+
+    <menuitem id="open_irvas_edoc_document_form" name="Prijem" sequence ="3" parent="irvas_edoc_document_list" action="action_muk_dms_document_receive_form"/>
+
+</odoo>

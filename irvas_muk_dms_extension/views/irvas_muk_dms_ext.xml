@@ -1,10 +1,58 @@
 <odoo>
+    <record id="irvas_edoc_document_shipped_wizard_view" model="ir.ui.view">
+        <field name="name">Otpremi Dokument</field>
+        <field name="model">muk_dms.file.shipping.wizard</field>
+        <field name="arch" type="xml">
+        <form string="Choose date and recipient">
+            <group>
+                <group>
+                    <field name="contact_id" string="Primalac"/>
+                    <field name="date_shipped"/>
+                    <field name="muk_dms_file_id" invisible="True"/>
+                    <field name="basic_number"/>
+                    <field name="sub_number"/>
+                    <field name="new_basic_number" string="Osnovni Broj"/>
+                    <field name="new_sub_number" string="novi subnumer"/>
+                </group>
+            </group>
+            <footer>
+                <button name="set_document_shipping"
+                    string="Otpremi"
+                    type="object"
+                    class="btn-primary"
+                    context="{'contact_id': contact_id, 'date_shipped': date_shipped, 'basic_number':basic_number, 'sub_number':sub_number, 'muk_dms_file_id':muk_dms_file_id}"
+                    />
+                    <!--context="{'date': date}" -->
+                <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="irvas_edoc_document_shipped_action_wizard" model="ir.actions.act_window">
+        <field name="name">eDoc</field>
+        <field name="res_model">muk_dms.file.shipping.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'default_muk_dms_file_id' : id}</field>
+        <field name="view_id" ref="irvas_edoc_document_shipped_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+
     <record model="ir.ui.view" id="view_dms_file_form_ext_receive_form_view">
         <field name="name">muk_dms.file.form.inherit</field>
         <field name="model">muk_dms.file</field>
         <field name="inherit_id" ref="muk_dms.view_dms_file_form"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
+            <xpath expr="//form/header" position="inside">
+                <button class="oe_highlight"
+                        type="object"
+                        name="run_document_shipped_action_wizard"
+                        string="Otpremi"
+                        context="{'id' : id}"
+                        attrs="{'invisible':['|',('locked', '!=', False), ('permission_write', '=', False)]}" />
+            </xpath>
             <xpath expr="/form/sheet/group[2]" position="after">
                 <group string="Information">
                     <group>
@@ -44,7 +92,7 @@
                         <field name="document_state" readonly="True"/>
                     </group>
                     <group>
-                        <field name="contact_id" required="True"/>
+                        <field name="contact_id" string="Primalac" required="True"/>
                         <field name="date_shipped" required="True"/>
                         <field name="create_date" required="True"/>
                     </group>
@@ -97,6 +145,9 @@
             <xpath expr="/tree/field[@name='size']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
+            <xpath expr="/tree/field[@name='path']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
             <xpath expr="/tree/field[@name='write_date']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
@@ -127,6 +178,9 @@
                 <attribute name="invisible">True</attribute>
             </xpath>
             <xpath expr="/tree/field[@name='size']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="/tree/field[@name='path']" position="attributes">
                 <attribute name="invisible">True</attribute>
             </xpath>
             <xpath expr="/tree/field[@name='write_date']" position="attributes">
@@ -236,6 +290,9 @@
         <field name="view_id" ref="edoc_document_shipped_tree_view"/>
         <field name="act_window_id" ref="action_dms_file_list_shipped"/>
     </record>
+
+
+
 
     <menuitem id="irvas_edoc_document_list" name="Spisak" sequence ="20" parent="muk_dms.main_menu_muk_dms"/>
 

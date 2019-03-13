@@ -96,6 +96,72 @@ class MukDmsExt(models.Model):
             'flags': {'form': {'action_buttons': True, 'options': {'mode': 'create'}}}
         }
 
+
+    @api.multi
+    def run_document_shipped_action_wizard(self):
+        action = self.env.ref('irvas_muk_dms_extension.irvas_edoc_document_shipped_action_wizard').read()[0]
+        return action
+
+class DocumentShippingActionWizard(models.TransientModel):
+    _name="muk_dms.file.shipping.wizard"
+
+    contact_id = fields.Many2one('res.partner')
+    date_shipped = fields.Datetime()
+    basic_number = fields.Integer(related='muk_dms_file_id.basic_number')
+    sub_number = fields.Integer(related='muk_dms_file_id.sub_number')
+
+
+    def _get_number_id(self):
+        file = self.env['muk_dms.file'].search([])
+        a=[]
+        max_number= 0
+        for f in file:
+            a.append(f.basic_number)
+        for i in range(len(a)):
+            if a[i]> max_number:
+                max_number = a[i]
+        if max_number == 0:
+            return 1
+        else:
+            return max_number + 1
+
+    new_basic_number = fields.Integer(string="Osnovni Broj", default=_get_number_id, store=True, readonly=False)
+
+
+
+    new_sub_number = fields.Integer(store="True",compute='number_onchange')
+
+    @api.one
+    @api.depends('new_basic_number')
+    def number_onchange(self):
+        file = self.env['muk_dms.file'].search([('basic_number', '=', self.new_basic_number)])
+        if file is None:
+            self.new_basic_number = 1
+            self.new_sub_number = 1
+        else:
+            max_subnumber = 0
+            for f in file:
+                if f.sub_number > max_subnumber:
+                    max_subnumber = f.sub_number
+            self.new_sub_number = max_subnumber + 1
+
+    def _get_file_id(self):
+
+        id = self.env.context.get('id')
+        file_id = self.env['muk_dms.file'].search([('id','=',id)])
+        return file_id
+
+
+    muk_dms_file_id = fields.Many2one('muk_dms.file', default=_get_file_id)
+
+    def set_document_shipping(self):
+        print(self.env.context.get('contact_id'))
+        print(self.env.context.get('muk_dms_file_id'))
+    # self.date_receive = None
+    #  self.document_state = 'otprema'
+    # self.contact_id = self.env.context.get('contact_id')
+    # self.date_shipped = self.env.context.get('date_shipped')
+
     # @api.onchange('location_dest_id')
     # def get_document_type(self, context=None):
     #     if self.location_dest_id:
