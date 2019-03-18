@@ -13,7 +13,8 @@
                     <table class="table table-condensed">
                         <thead>
 				            <tr>
-                                <th class="text-left">Br. dokumenta</th>
+                                <th class="text-left">Dokument</th>
+                                <th class="text-left">Broj</th>
 					            <th class="text-left">Posiljaoc</th>
                 	            <th class="text-left">Klasa Dokumenta</th>
                                 <th class="text-left">Predmet</th>
@@ -30,6 +31,7 @@
                         <tbody>
                             <t t-foreach="o.document_ids.sorted(key=lambda b: (b.sub_number, b.basic_number))" t-as="l">
                                 <tr>
+                                    <td class="text-left" ><span t-esc="l.document_id_name"/></td>
                                     <td class="text-left" ><span t-esc="l.document_number"/></td>
     				                <td class="text-left" ><span t-esc="l.contact_name"/></td>
                                     <td class="text-left" ><span t-esc="l.document_name"/></td>

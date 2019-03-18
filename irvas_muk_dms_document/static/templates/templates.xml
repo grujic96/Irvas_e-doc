@@ -1,0 +1,7 @@
+<odoo>
+    <template id="assets_backend" name="irvas_muk_dms_document_assets" inherit_id="web.assets_backend">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" href="/irvas_muk_dms_document/static/src/less/documents_kanban_less.less" />
+        </xpath>
+    </template>
+</odoo>

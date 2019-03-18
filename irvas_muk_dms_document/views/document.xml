@@ -14,6 +14,73 @@
         <field name="model">muk_dms.document</field>
         <field name="arch" type="xml">
             <form string="Files">
+                <header>
+
+                </header>
+                <sheet>
+                    <field name="thumbnail"
+                        widget='image'
+                        class="oe_avatar oe_read_only"
+                        options="{'preview_image': 'file_id.thumbnail_medium', 'size': [90, 90]}" />
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <group>
+                            <group>
+                                <h1>
+                                    <field name="name" readonly="True"/>
+                                </h1>
+                            </group>
+                            <group>
+                                <h1>
+                                    &#160;&#160;|&#160;&#160;
+                                    <field name="document_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                                </h1>
+                            </group>
+                        </group>
+                    </div>
+                    <group string="Information">
+                        <field name="check_bn" invisible="True"/>
+                        <field name="document_class_id" string="Klasa Dokumenta" domain="['|',['document_type','=','ulazni'],['document_type','=','interni']]" required="True"/>
+                        <field name="document_unique_name" required="True" string="Document ID"/>
+                        <field name="subject_id" string="Predmet" required="True"/>
+                        <!--<field name="basic_number" string="Osnovni Broj" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                        <field name="sub_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/> -->
+                        <field name="date_receive" string="Datum Prijema" required="True"/>
+                    </group>
+                    <group string="Partner">
+                        <field name="contact_id" string="Posiljaoc" required="True"/>
+                        <field name="date_document" string="Datum" required="True"/>
+                        <field name="tags" widget="many2many_tags" placeholder="Tags..."
+                            options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        <field name="file_id"/>
+
+                    </group>
+
+                    <notebook>
+                        <page string="Meta Information">
+                            <group>
+                                <group>
+                                    <field name="create_uid" readonly="1" />
+                                </group>
+                                <group>
+                                    <field name="write_date" readonly="1" />
+                                    <field name="write_uid" readonly="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record model="ir.ui.view" id="muk_dms_document_shipped_form_view">
+        <field name="name">muk_dms.document.form</field>
+        <field name="model">muk_dms.document</field>
+        <field name="arch" type="xml">
+            <form string="Files">
 			<header>
 
 			</header>
@@ -22,46 +89,75 @@
                 	widget='image'
                 	class="oe_avatar oe_read_only"
                 	options="{'preview_image': 'file_id.thumbnail_medium', 'size': [90, 90]}" />
-                 <div class="oe_title">
-					<label for="name" class="oe_edit_only" />
-					<h1>
-						<field name="name" readonly="True"/>
-					</h1>
-				</div>
- 				<group string="Information">
-                    <field name="check_bn" invisible="True"/>
-                    <field name="document_class_id" string="Klasa Dokumenta" domain="['|',['document_type','=','ulazni'],['document_type','=','interni']]"/>
-                    <field name="subject_id" string="Predmet"/>
-                    <field name="basic_number" string="Osnovni Broj" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
-                    <field name="sub_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
-                    <field name="date_receive" string="Datum Prijema"/>
-				</group>
-                <group string="Partner">
-                    <field name="contact_id" string="Posiljaoc"/>
-                    <field name="date_document" string="Datum"/>
-                    <field name="tags" widget="many2many_tags" placeholder="Tags..."
- 						options="{'color_field': 'color', 'no_create_edit': True}"/>
-                    <field name="file_id"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <group>
+                            <group>
+                                <h1>
+                                    <field name="name" readonly="True"/>
+                                </h1>
+                            </group>
+                            <group>
+                                <h1>
+                                    &#160;&#160;|&#160;&#160;
+                                    <field name="document_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                                </h1>
+                            </group>
+                        </group>
+                    </div>
+                    <group string="Information">
+                        <field name="check_bn" invisible="True"/>
+                        <field name="document_class_id" string="Klasa Dokumenta" domain="[('document_type','=','izlazni')]" required="True"/>
+                        <field name="document_unique_name" required="True" string="Document ID"/>
+                        <field name="subject_id" string="Predmet" required="True"/>
+                        <!--<field name="basic_number" string="Osnovni Broj" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                        <field name="sub_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/> -->
+                        <field name="date_shipped" string="Datum Otpreme" required="True"/>
+                    </group>
+                    <group string="Partner">
+                        <field name="contact_id" string="Primalac" required="True"/>
+                        <field name="date_document" string="Datum" required="True"/>
+                        <field name="tags" widget="many2many_tags" placeholder="Tags..."
+                            options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        <field name="file_id"/>
 
-                </group>
+                    </group>
 
-				<notebook>
-					<page string="Meta Information">
-						<group>
-							<group>
-								<field name="create_uid" readonly="1" />
-							</group>
-							<group>
-								<field name="write_date" readonly="1" />
-								<field name="write_uid" readonly="1" />
-							</group>
-						</group>
-					</page>
-				</notebook>
-			</sheet>
-		</form>
+                    <notebook>
+                        <page string="Meta Information">
+                            <group>
+                                <group>
+                                    <field name="create_uid" readonly="1" />
+                                </group>
+                                <group>
+                                    <field name="write_date" readonly="1" />
+                                    <field name="write_uid" readonly="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="muk_dms_document_shipped_tree_view">
+        <field name="name">muk_dms.document.tree</field>
+        <field name="model">muk_dms.document</field>
+        <field name="arch" type="xml">
+            <tree default_order="document_number">
+                <field name="name"/>
+                <field name="document_number"/>
+                <field name="date_document"/>
+                <field name="date_shipped"/>
+                <field name="document_class_id"/>
+                <field name="contact_id"/>
+                <field name="subject_id"/>
+            </tree>
+        </field>
+    </record>
+
+
 
     <record id="muk_dms.main_menu_muk_dms" model="ir.ui.menu">
         <field name='name'>eDoc</field>
@@ -72,13 +168,13 @@
         <field name="model">muk_dms.document</field>
         <field name="arch" type="xml">
             <tree default_order="document_number">
+                <field name="name"/>
                 <field name="document_number"/>
                 <field name="date_document"/>
                 <field name="date_receive"/>
                 <field name="document_class_id"/>
                 <field name="contact_id"/>
                 <field name="subject_id"/>
-                <field name="file_id"/>
             </tree>
         </field>
     </record>
@@ -151,6 +247,44 @@
         <field name="act_window_id" ref="action_dms_file_list"/>
     </record>
     -->
+
+
+
+    <record id="action_muk_dms_document_shipped_form" model="ir.actions.act_window">
+        <field name="name">Otprema</field>
+        <field name="res_model">muk_dms.document</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree, form</field>
+        <field name="context">{'default_document_state' : 'otprema','default_date_shipped' : datetime.datetime.now()}</field>
+        <field name="domain">[('document_class_id.document_type','=','izlazni')]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a new file.
+            </p>
+            <p>
+                Files are used to save content directly in Odoo.
+            </p>
+        </field>
+    </record>
+
+     <record id="action_documents_shipped_tree_view" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="muk_dms_document_shipped_tree_view"/>
+
+        <field name="act_window_id" ref="action_muk_dms_document_shipped_form"/>
+    </record>
+
+    <record id="action_documents_shipped_form_view" model="ir.actions.act_window.view">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="muk_dms_document_shipped_form_view"/>
+        <field name="act_window_id" ref="action_muk_dms_document_shipped_form"/>
+    </record>
+
+
+
+
     <!-- ACTION FOR muk_dms.file TREE VIEW recieve -->
 
     <record id="action_muk_dms_document_receive_form" model="ir.actions.act_window">
@@ -158,7 +292,7 @@
         <field name="res_model">muk_dms.document</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree, form</field>
-         <field name="context">{'default_document_state' : 'prijem'}</field>
+        <field name="context">{'default_document_state' : 'prijem','default_date_receive' : datetime.datetime.now()}</field>
         <field name="domain">['|',['document_class_id.document_type','=','ulazni'],['document_class_id.document_type','=','interni']]</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
@@ -249,9 +383,240 @@
         </record>
 -->
 
+    <!-- KANBAN VIEW FOR DOCUMENTS -->
 
-    <menuitem id="irvas_edoc_document_list" name="Spisak" sequence ="20" parent="muk_dms.main_menu_muk_dms"/>
+    <record id="muk_dms_documents_all_kanban_view" model="ir.ui.view">
+        <field name="name">muk_dms_document.kanban</field>
+        <field name="model">muk_dms.document</field>
+        <field name="arch" type="xml">
+            <kanban class="o_dokuments_kanban o_kanban_medium_column o_emphasize_colors" js_class="file_kanban" create="false">
+                <field name="id" />
+                <field name="tags"/>
+                <field name="color"/>
+                <!--<field name="editor" />
+                <field name="locked" /> -->
+                <field name="write_date"/>
+                <field name="write_uid"/>
+                <!--
+                <field name="permission_read" />
+                <field name="permission_create" />
+                <field name="permission_write" />
+                <field name="permission_unlink" />
+                <field name="name" /> -->
+                <!--<field name="message_needaction_counter"/>
+                <field name="activity_state"/>
+                <field name="activity_ids"/>-->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                            <div class="mk_dms_file_main">
+                                <div class="oe_kanban_content">
+                                    <div class="mk_dms_file_thumbnail" t-attf-data-id="#{record.id.raw_value}">
+                                        <img t-att-src="kanban_image('muk_dms.document', 'thumbnail_medium', record.id.raw_value)"/>
+                                    </div>
+                                    <div class="o_kanban_record_top">
+
+                                        <div class="o_kanban_record_headings">
+                                           <div class="mk_dms_file_name">
+											<field name="name"/>
+										</div>
+                                        </div>
+                                        <div class="o_dropdown_kanban dropdown">
+                                            <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                                <span class="fa fa-ellipsis-v" aria-hidden="true"/>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+                                                <!--
+                                                <li>
+                                                    <a type="open">
+                                                        <i class="fa fa-external-link" aria-hidden="true" />
+                                                        <span>Open</span>
+                                                    </a>
+                                                </li>
+                                                <li attrs="{'invisible':[('permission_write','!=',True)]}">
+                                                    <a type="edit">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" />
+                                                        <span>Edit</span>
+                                                    </a>
+                                                </li>
+                                                <li attrs="{'invisible':[('permission_unlink','!=',True)]}">
+                                                    <a type="delete">
+                                                        <i class="fa fa-trash-o" aria-hidden="true" />
+                                                        <span>Delete</span>
+                                                    </a>
+                                                </li> -->
+                                                <!--
+                                                <li>
+                                                    <a t-attf-href="/web/content?id=#{record.id.raw_value}&amp;field=content&amp;model=muk_dms.file&amp;filename_field=name&amp;download=true">
+                                                        <i class="fa fa-download" aria-hidden="true" />
+                                                        <span>Download</span>
+                                                    </a>
+                                                </li>
+                                                -->
+                                                <li>
+                                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="flex: 50%;">
+                                            <div class="o_kanban_record_body">
+                                                <field name="tags" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                            </div>
+                                        </div>
+                                        <div style="flex: 50%;">
+                                            <field name="document_state" invisible="True"/>
+                                            <i attrs="{'invisible': [('document_state', '=', 'otprema')]}" class="glyphicon glyphicon-log-in" style="font-size:16px;color:#454749;text-shadow:1px 1px 2px #000000;"/>
+                                            <i attrs="{'invisible': [('document_state', '=', 'prijem')]}" class="glyphicon glyphicon-log-out" style="font-size:16px;color:#454749;text-shadow:1px 1px 2px #000000;"/>
+                                            <field name="document_number"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                            <field name="write_date" widget="date"/>
+                                        </div><div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_right">
+                                            <field name="date_receive" attrs="{'invisible': [('document_state', '=', 'otprema')]}" style="overflow: hidden;text-overflow: ellipsis; " widget="date"/>
+                                            <field name="date_shipped" attrs="{'invisible': [('document_state', '=', 'prijem')]}" style="overflow: hidden;text-overflow: ellipsis; " widget="date"/>
+
+                                        </div></div>
+                                       <!--< <div class="oe_kanban_bottom_right">
+                                            <t t-if="record.message_needaction_counter.raw_value">
+                                                <span class='oe_kanban_mail_new' title='Unread Messages'><i class='fa fa-comments'/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                            </t>
+                                               <field name="activity_ids" widget="kanban_activity"/>
+                                            <img t-att-src="kanban_image('res.users', 'image_small', record.write_uid.raw_value)" t-att-title="record.write_uid.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="muk_dms_document_all_form_view">
+        <field name="name">muk_dms.document.form</field>
+        <field name="model">muk_dms.document</field>
+        <field name="arch" type="xml">
+            <form string="Files" create="false">
+                <header>
+
+                </header>
+                <sheet>
+                    <field name="thumbnail"
+                        widget='image'
+                        class="oe_avatar oe_read_only"
+                        options="{'preview_image': 'file_id.thumbnail_medium', 'size': [90, 90]}" />
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <group>
+                            <group>
+                                <h1>
+                                    <field name="name" readonly="True"/>
+                                </h1>
+                            </group>
+                            <group>
+                                <h1>
+                                    &#160;&#160;|&#160;&#160;
+                                    <field name="document_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                                </h1>
+                            </group>
+                        </group>
+                    </div>
+                    <group string="Information">
+                        <field name="check_bn" invisible="True"/>
+                        <field name="document_class_id" string="Klasa Dokumenta" domain="['|',['document_type','=','ulazni'],['document_type','=','interni']]" required="True"/>
+                        <field name="document_unique_name" required="True" string="Document ID"/>
+                        <field name="subject_id" string="Predmet" required="True"/>
+                        <field name="basic_number" string="Osnovni Broj" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                        <field name="sub_number" readonly="True" attrs="{'invisible':[('write_date', '=', False)]}"/>
+                        <field name="document_state" string="Prijem ili otprema" />
+                        <field name="date_receive" string="Datum Prijema" attrs="{'invisible':[('document_state', '=', 'otprema')]}"/>
+                        <field name="date_shipped" string="Datum Otpreme" attrs="{'invisible':[('document_state', '=', 'prijem')]}"/>
+                    </group>
+                    <group string="Partner">
+                        <field name="contact_id" string="Partner" required="True"/>
+                        <field name="date_document" string="Datum" required="True"/>
+                        <field name="tags" widget="many2many_tags" placeholder="Tags..."
+                            options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        <field name="file_id"/>
+
+                    </group>
+
+                    <notebook>
+                        <page string="Meta Information">
+                            <group>
+                                <group>
+                                    <field name="create_uid" readonly="1" />
+                                </group>
+                                <group>
+                                    <field name="write_date" readonly="1" />
+                                    <field name="write_uid" readonly="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+
+    <record id="action_muk_dms_document_all_form" model="ir.actions.act_window">
+        <field name="name">Dokumenta</field>
+        <field name="res_model">muk_dms.document</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban, tree, form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to add a new file.
+            </p>
+            <p>
+                Files are used to save content directly in Odoo.
+            </p>
+        </field>
+    </record>
+
+    <!--<record id="action_documents_receive_tree_view" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="muk_dms_document_received_tree_view"/>
+
+        <field name="act_window_id" ref="action_muk_dms_document_receive_form"/>
+    </record> -->
+
+    <record id="action_documents_all_kanban_view" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="muk_dms_documents_all_kanban_view"/>
+        <field name="act_window_id" ref="action_muk_dms_document_all_form"/>
+    </record>
+
+    <record id="action_documents_all_form_view" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="muk_dms_document_all_form_view"/>
+        <field name="act_window_id" ref="action_muk_dms_document_all_form"/>
+    </record>
+
+
+
+
+    <menuitem id="irvas_edoc_document_list" name="Dokumenta" sequence ="20" parent="muk_dms.main_menu_muk_dms"/>
 
     <menuitem id="open_irvas_edoc_document_form" name="Prijem" sequence ="3" parent="irvas_edoc_document_list" action="action_muk_dms_document_receive_form"/>
+
+    <menuitem id="open_irvas_edoc_document_all_form" name="Pregled svih dokumenata" sequence ="1" parent="irvas_edoc_document_list" action="action_muk_dms_document_all_form"/>
+
+    <menuitem id="open_irvas_edoc_document_shipped_form" name="Otprema" sequence ="4" parent="irvas_edoc_document_list" action="action_muk_dms_document_shipped_form"/>
+
 
 </odoo>

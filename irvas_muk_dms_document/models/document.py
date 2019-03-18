@@ -17,8 +17,11 @@ class MukDmsExt(models.Model):
     digital_signature = fields.Binary(string="Digital Signature")
     document_number = fields.Text(string="Document Number", compute="get_document_number", store=True, readonly=True)
 
+    document_unique_name = fields.Char()
     file_id = fields.Many2one('muk_dms.file')
     thumbnail = fields.Binary(related='file_id.thumbnail')
+    thumbnail_medium = fields.Binary(related='file_id.thumbnail')
+    color = fields.Integer(related='file_id.color')
 
     subject_id = fields.Many2one('muk_dms.document.subject', string='Subject', default=None)
     basic_number = fields.Integer(related='subject_id.id', readonly=1)
@@ -49,7 +52,7 @@ class MukDmsExt(models.Model):
         if self.sub_number > 0:
             pass
         else:
-            docs = self.env['muk_dms.document'].search([('subject_id','=',self.subject_id.id),('document_state','=', self.document_state)])
+            docs = self.env['muk_dms.document'].search(['&',('subject_id','=',self.subject_id.id),('document_state','=', self.document_state)])
             max_subnumber =1
             print(docs)
             print(len(docs))
@@ -194,3 +197,7 @@ class DocumentSubject(models.Model):
 
     name = fields.Text()
 
+class MukDmsFileInherit(models.Model):
+    _inherit = 'muk_dms.file'
+
+    document_id = fields.Many2one('muk_dms.document')

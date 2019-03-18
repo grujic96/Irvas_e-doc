@@ -18,7 +18,7 @@ class MukDmsFileReportLine(models.TransientModel):
 
 	wizard_id = fields.Many2one('muk_dms.file.report', required=True, ondelete='cascade')
 	name = fields.Char(required=False, string="Label")
-	document_id = fields.Many2one('muk_dms.file',string="Dokument")
+	document_id = fields.Many2one('muk_dms.document',string="Dokument")
 
 	sub_number = fields.Integer()
 	basic_number = fields.Integer()
@@ -31,6 +31,8 @@ class MukDmsFileReportLine(models.TransientModel):
 	object = fields.Text()
 	document_class_id = fields.Many2one(related='document_id.document_class_id')
 	document_name = fields.Text()
+
+	document_id_name = fields.Text()
 
 	date_receive = fields.Datetime(related='document_id.date_receive')
 	date_shipped = fields.Datetime(related='document_id.date_shipped')
@@ -59,7 +61,7 @@ class DmsReport(models.TransientModel):
 		document_ids_filtered = []
 		document_ids =[]
 		date_shipped_receive = None
-		for resource in self.env['muk_dms.file'].search([('document_state','=',self.document_state)]):
+		for resource in self.env['muk_dms.document'].search([('document_state','=',self.document_state)]):
 			if self.document_state == 'prijem':
 				date_shipped_receive = resource.date_receive
 
@@ -68,10 +70,11 @@ class DmsReport(models.TransientModel):
 
 			print(resource.document_class_id.id)
 			print(date_shipped_receive)
-			if self.date <= resource.create_date and resource.create_date <= self.date_finish:
+			if self.date <= resource.date_document and resource.date_document <= self.date_finish:
 				document_ids_filtered.append({
 					'name': resource.name,
-					'create_date': resource.create_date,
+					'document_id_name': resource.name,
+					'create_date': resource.date_document,
 					'sub_number': resource.sub_number,
 					'basic_number': resource.basic_number,
 					'contact_id': resource.contact_id,
@@ -80,14 +83,14 @@ class DmsReport(models.TransientModel):
 					'document_type': resource.document_class_id.document_type,
 					'document_class_id': resource.document_class_id,
 					'contact_name': resource.contact_id.name,
-					'object': resource.object,
+					'object': resource.subject_id.name,
 					'document_number': resource.document_number,
 				})
-		grouper = itemgetter("name", "create_date", "sub_number", "basic_number", "contact_id", "document_class_id", "date_shipped_receive","document_type","document_name","contact_name","object","document_number")
+		grouper = itemgetter("name", "create_date", "sub_number", "basic_number", "contact_id", "document_class_id", "date_shipped_receive","document_type","document_name","contact_name","object","document_number",'document_id_name')
 		_logger.warning('-------------------------------%s', grouper)
 		for key, grp in groupby(sorted(document_ids_filtered, key=grouper), grouper):
 			temp_dict = dict(zip(
-				["name", "create_date", "sub_number", "basic_number", "contact_id", "document_class_id","date_shipped_receive","document_type","document_name","contact_name","object","document_number"], key))
+				["name", "create_date", "sub_number", "basic_number", "contact_id", "document_class_id","date_shipped_receive","document_type","document_name","contact_name","object","document_number",'document_id_name'], key))
 
 			document_ids.append((0, 0, temp_dict))
 

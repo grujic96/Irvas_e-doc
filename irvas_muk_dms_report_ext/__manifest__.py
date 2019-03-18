@@ -24,7 +24,7 @@
 
     "category": "ext",
     "depends": [
-        'muk_dms', 'irvas_muk_dms_extension', 'irvas_edoc_kategorije'
+        'muk_dms', 'irvas_muk_dms_document', 'irvas_edoc_kategorije'
     ],
     "data": [
         "report/nix_sit_history_report.xml",

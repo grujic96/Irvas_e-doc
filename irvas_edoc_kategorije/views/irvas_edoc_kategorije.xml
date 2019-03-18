@@ -291,20 +291,14 @@
 
     <menuitem id="irvas_edoc" name="Irvas Edoc" />
 
-    <menuitem id="irvas_edoc_main" name="Irvas Edoc"
-         sequence="23" parent="muk_dms.cat_menu_muk_dms_config" />
-
     <menuitem id="irvas_edoc_categories" name="Categories"
-         sequence="1" parent="irvas_edoc_main" />
-
-    <menuitem id="irvas_edoc_documents" name="Documents"
-         sequence="1" parent="irvas_edoc_main" />
+         sequence="1" parent="muk_dms.cat_menu_muk_dms_config" />
 
     <menuitem id="irvas_edoc_categories_tree" name="Category"
          action="action_irvas_edoc_categories_form" sequence="4" parent="irvas_edoc_categories" />
 
-    <menuitem id="irvas_edoc_document_class_tree" name="Class"
-         action="action_irvas_edoc_document_class_form" sequence="2" parent="irvas_edoc_documents" />
+    <menuitem id="irvas_edoc_document_class_tree" name="Document Class"
+         action="action_irvas_edoc_document_class_form" sequence="2" parent="muk_dms.cat_menu_muk_dms_config" />
 
     <menuitem id="irvas_edoc_maingroup_tree" name="Main Group"
          action="action_irvas_edoc_maingroup_form" sequence="1" parent="irvas_edoc_categories" />

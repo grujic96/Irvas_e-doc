@@ -40,9 +40,9 @@
         
         <menuitem
             id= "irvas_edoc_document_report"
-            parent="irvas_muk_dms_extension.irvas_edoc_document_list"
+            parent="irvas_muk_dms_document.irvas_edoc_document_list"
             action="irvas_edoc_document_action_wizard"
-            name= "Edoc Document Report"
+            name= "Document Report"
 	    sequence='15'
             
         />            

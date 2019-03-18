@@ -32,7 +32,8 @@
     'author': 'Aleksandar Grujic',
     'depends': ['muk_dms'],
     'data': [
-        'views/document.xml'
+        'views/document.xml',
+        'static/templates/templates.xml',
     ],
     'demo': [
     ],
