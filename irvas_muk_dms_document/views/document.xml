@@ -607,8 +607,9 @@
         <field name="act_window_id" ref="action_muk_dms_document_all_form"/>
     </record>
 
-
-
+    <record id="make_invisible" model="res.groups">
+        <field name="name">Invisible</field>
+    </record>
 
     <menuitem id="irvas_edoc_document_list" name="Dokumenta" sequence ="20" parent="muk_dms.main_menu_muk_dms"/>
 
@@ -618,5 +619,25 @@
 
     <menuitem id="open_irvas_edoc_document_shipped_form" name="Otprema" sequence ="4" parent="irvas_edoc_document_list" action="action_muk_dms_document_shipped_form"/>
 
+    <record model="ir.ui.menu" id="muk_dms.cat_menu_muk_dms_files">
+        <field name="name">Record to hide menu"</field>
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="muk_dms.menu_dms_category">
+        <field name="name">Record to hide menu"</field>
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="muk_dms.menu_dms_tree_view">
+        <field name="name">Browse Files</field>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record model="ir.ui.menu" id="muk_dms.menu_dms_directory">
+        <field name="name">File Directories</field>
+
+        <field name="sequence" eval="29"/>
+    </record>
 
 </odoo>

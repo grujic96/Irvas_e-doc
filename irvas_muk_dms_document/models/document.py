@@ -33,13 +33,15 @@ class MukDmsExt(models.Model):
         column2='tid',
         string='Tags')
 
+    document_type = fields.Selection([('ulazni','Ulazni'),('izlazni','Izlazni'),('interni','Interni')])
+
     @api.one
     @api.depends('document_class_id')
     def _get_document_state(self):
-        if self.document_class_id.document_type == 'izlazni':
+        if self.document_type == 'izlazni':
             self.document_state = 'otprema'
             print('asd')
-        elif (self.document_class_id.document_type == 'ulazni') or (self.document_class_id.document_type == 'interni'):
+        elif (self.document_type == 'ulazni') or (self.document_class_id.document_type == 'interni'):
             self.document_state = 'prijem'
             print('uso')
         else:
