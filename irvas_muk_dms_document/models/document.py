@@ -1,10 +1,17 @@
 
 from odoo import models, api, fields
 from datetime import datetime
-
+from datetime import timedelta
+import pytz
 
 class MukDmsExt(models.Model):
     _name = "muk_dms.document"
+
+    _inherit = [
+        'muk_dms.locking',
+        'muk_dms.access',
+        'mail.thread',
+        'mail.activity.mixin']
 
     name = fields.Text(string="Document", compute="get_document_name")
 
@@ -36,7 +43,7 @@ class MukDmsExt(models.Model):
     document_type = fields.Selection([('ulazni','Ulazni'),('izlazni','Izlazni'),('interni','Interni')])
 
     @api.one
-    @api.depends('document_class_id')
+    @api.depends('document_type')
     def _get_document_state(self):
         if self.document_type == 'izlazni':
             self.document_state = 'otprema'
@@ -87,6 +94,10 @@ class MukDmsExt(models.Model):
 
             print('zavrsio')
 
+    def localize_datetime(self, datetime):
+        localtz = pytz.timezone('Europe/Belgrade')
+        gotted = (pytz.utc).localize(datetime).astimezone(pytz.timezone('Europe/Belgrade'))
+        return gotted
 
     @api.one
     @api.depends('name')
@@ -102,7 +113,12 @@ class MukDmsExt(models.Model):
             date_shipped_receive = self.date_receive
         else:
             date_shipped_receive = self.date_shipped
-        self.name = "doc_" + str(self.contact_id.id) + "-" + str(self.document_class_id.id) + "/" + date_shipped_receive
+        print(self.date_receive)
+        print(self.date_shipped)
+        print(date_shipped_receive)
+        dt = self.localize_datetime(datetime.strptime(date_shipped_receive, '%Y-%m-%d %H:%M:%S'))
+        print(dt)
+        self.name = "doc_" + str(self.contact_id.id) + "-" + str(self.document_class_id.id) + "/" + str(dt.date()) + "/" + str(dt.time())
 #     @api.multi
 #     def run_document_shipped_action_wizard(self):
 #         action = self.env.ref('irvas_muk_dms_extension.irvas_edoc_document_shipped_action_wizard').read()[0]
